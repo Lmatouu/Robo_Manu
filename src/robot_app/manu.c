@@ -38,7 +38,7 @@ void manu_go_forward() {
 
 	while(pilot_get_status() != DONE){
 	pilot_stop_at_target();
-
+    //message test
 }
 }
 
