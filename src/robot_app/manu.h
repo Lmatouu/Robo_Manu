@@ -1,4 +1,4 @@
-// MANU.h
+// manu.h
 
 #ifndef MANU_H
 #define MANU_H
@@ -21,4 +21,4 @@ typedef enum{
 
 void modeManuel(process_state *running);
 
-#endif // MANU_H
+#endif // manu_H
