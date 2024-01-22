@@ -11,7 +11,6 @@
 // Test Mathis GitHub
 int etat_verrouillage = 0;
 static robot_status my_status;
-a
 
 
 move tab_move_forward[1]={
