@@ -1,4 +1,4 @@
-//manu.C
+// manu.C
 
 #include <stdio.h>
 #include <ctype.h>
@@ -7,95 +7,102 @@
 #include <pilot.h>
 #include <manu.h>
 
-
 // Test Mathis GitHub
 int etat_verrouillage = 0;
 static robot_status my_status;
 
-
-move tab_move_forward[1]={
-{FORWARD,{3},60}
-};
-move tab_move_right[1]={
-{ROTATION,{RIGHT},50}
-};
-move tab_move_left[1]={
-{ROTATION,{LEFT},50}
-};
-move tab_u_turn[1]={
-{ROTATION,{U_TURN},50}
-};
-
-
-
+move tab_move_forward[1] = {
+    {FORWARD, {3}, 60}};
+move tab_move_right[1] = {
+    {ROTATION, {RIGHT}, 50}};
+move tab_move_left[1] = {
+    {ROTATION, {LEFT}, 50}};
+move tab_u_turn[1] = {
+    {ROTATION, {U_TURN}, 50}};
 
 /**
  * @brief Permet de faire avancer le robot tout droit
  *
+ * @author Mathis VEBER
  */
-void manu_go_forward() {
+void manu_go_forward()
+{
     printf("La touche Z a été appuyée.\n");
     // Ajoutez ici le code que vous souhaitez exécuter pour la touche Z
-	pilot_start_move( tab_move_forward[0] );
+    pilot_start_move(tab_move_forward[0]);
 
-	while(pilot_get_status() != DONE){
-	pilot_stop_at_target();
-    
-}
+    while (pilot_get_status() != DONE)
+    {
+        pilot_stop_at_target();
+    }
 }
 
 /**
  * @brief Permet de faire tourner le robot à 90° à gauche
  *
+ * @author Mathis VEBER
  */
-void manu_turn_left() {
+void manu_turn_left()
+{
     printf("La touche Q a été appuyée.\n");
     // Ajoutez ici le code que vous souhaitez exécuter pour la touche Q
-	pilot_start_move( tab_move_left[0] );
+    pilot_start_move(tab_move_left[0]);
 
-	while(pilot_get_status() != DONE){
-	pilot_stop_at_target();
-}
+    while (pilot_get_status() != DONE)
+    {
+        pilot_stop_at_target();
+    }
 }
 
 /**
  * @brief Permet de faire tourner le robot à 180° à droite
  *
+ * @author Mathis VEBER
  */
-void manu_U_turn() {
-printf("La touche S a été appuyée.\n");
-// Ajoutez ici le code que vous souhaitez exécuter pour la touche S
+void manu_U_turn()
+{
+    printf("La touche S a été appuyée.\n");
+    // Ajoutez ici le code que vous souhaitez exécuter pour la touche S
 
-pilot_start_move( tab_u_turn[0]);
+    pilot_start_move(tab_u_turn[0]);
 
-while(pilot_get_status() != DONE){
-pilot_stop_at_target();
-}
+    while (pilot_get_status() != DONE)
+    {
+        pilot_stop_at_target();
+    }
 }
 
 /**
  * @brief Permet de faire tourner le robot à 90° à droite
  *
+ * @author Mathis VEBER
  */
-void manu_turn_right() {
+void manu_turn_right()
+{
     printf("La touche D a été appuyée.\n");
     // Ajoutez ici le code que vous souhaitez exécuter pour la touche D
-	pilot_start_move( tab_move_right[0]);
+    pilot_start_move(tab_move_right[0]);
 
-	while(pilot_get_status() != DONE){
-	pilot_stop_at_target();
-}
+    while (pilot_get_status() != DONE)
+    {
+        pilot_stop_at_target();
+    }
 }
 
 /**
  * @brief Permet d'activer ou désactiver l'arrêt d'urgence
  *
+ * @author Kilian GUÉRY
  */
-void manu_lock(int *etat_verrouillage) {
-    if(*etat_verrouillage == 1){
+void manu_lock(int *etat_verrouillage)
+{
+    if (*etat_verrouillage == 1)
+    {
         *etat_verrouillage = 0;
         printf("Désactivé. Etat : %d\n", *etat_verrouillage);
-    } else {
+    }
+    else
+    {
         *etat_verrouillage = 1;
         printf("Activé. Etat : %d\n", *etat_verrouillage);
     }
@@ -104,8 +111,10 @@ void manu_lock(int *etat_verrouillage) {
 /**
  * @brief Permet d'afficher les différentes informations du Robot
  *
+ * @author Kilian GUÉRY
  */
-void manu_display_info() {
+void manu_display_info()
+{
     my_status = robot_get_status();
     printf("\033[1;4mInformations du Robot :\033[0m\n");
     fprintf(stdout, "Codeurs: g = %d, d = %d\n", my_status.left_encoder, my_status.right_encoder);
@@ -138,8 +147,10 @@ void manu_display_info() {
 /**
  * @brief Permet d'afficher les différentes interactions possibles avec la console en mode Manuel
  *
+ * @author Kilian GUÉRY
  */
-void manu_display_menu() {
+void manu_display_menu()
+{
     printf("\n=================MENU=================\n");
     printf("\033[1;4mDéplacement du Robot\033[0m\n");
     printf("\033[1m'Z'\033[0m permet de faire avancer le Robot\n");
@@ -156,80 +167,90 @@ void manu_display_menu() {
 /**
  * @brief Permet de configurer le mode sans tampon
  *
+ * @authors Mathis VEBER & Intelligence Artificielle
  */
-void setBufferedInput(int enable) {
+void setBufferedInput(int enable)
+{
     static struct termios oldt, newt;
-    static int isFirstCall = 1;  // Variable pour suivre le premier appel
+    static int isFirstCall = 1; // Variable pour suivre le premier appel
 
-    if (!enable && isFirstCall) {
+    if (!enable && isFirstCall)
+    {
         printf("Bonjour, vous entrez en mode Manuel.\nPour plus d'information, cliquez sur 'M'\n");
         tcgetattr(STDIN_FILENO, &oldt);
         newt = oldt;
         newt.c_lflag &= ~(ICANON | ECHO);
         tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-        isFirstCall = 0;  // Met à jour la variable pour indiquer que le premier appel a été fait
-    } else if (enable) {
+        isFirstCall = 0; // Met à jour la variable pour indiquer que le premier appel a été fait
+    }
+    else if (enable)
+    {
         tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
     }
 }
 
-
 /**
- * @brief Permet de lancer le mode manuel 
+ * @brief Permet de lancer le mode manuel
  *
+ * @authors Mathis VEBER & Kilian GUÉRY
  */
 
-void modeManuel(process_state *running){
+void modeManuel(process_state *running)
+{
     char key;
 
     setBufferedInput(0); // Désactive le tampon d'entrée pour obtenir un caractère immédiatement
 
     key = toupper(getchar());
 
-    switch (key) {
-        case 'Z': // Touche Z pour aller devant
-        if(etat_verrouillage == 0){
+    switch (key)
+    {
+    case 'Z': // Touche Z pour aller devant
+        if (etat_verrouillage == 0)
+        {
             manu_go_forward();
         }
-            break;
+        break;
 
-        case 'Q': // Touche Q pour mode verrouillage
-        if(etat_verrouillage == 0){
+    case 'Q': // Touche Q pour mode verrouillage
+        if (etat_verrouillage == 0)
+        {
             manu_turn_left();
-        }  
-            break;
+        }
+        break;
 
-		case 'S': // Touche S pour faire le debut tour
-		if(etat_verrouillage == 0){
-		manu_U_turn();
-		}
-			break;
-		
-        case 'D': // Touche D pour mode verrouillage
-        if(etat_verrouillage == 0){
+    case 'S': // Touche S pour faire le debut tour
+        if (etat_verrouillage == 0)
+        {
+            manu_U_turn();
+        }
+        break;
+
+    case 'D': // Touche D pour mode verrouillage
+        if (etat_verrouillage == 0)
+        {
             manu_turn_right();
         }
-            break;
+        break;
 
-        case ' ': // Touche Esc pour mode verrouillage
-            manu_lock(&etat_verrouillage);
-            break;
+    case ' ': // Touche Esc pour mode verrouillage
+        manu_lock(&etat_verrouillage);
+        break;
 
-		case 'O': // Touche O pour quitter le mode manuel
-			setBufferedInput(1); // Réactive le tampon d'entrée pour obtenir un caractère immédiatement
-			*running = 0; // Met à jour la variable running dans la classe principale
-            break;
-		
-		case 'M': // Touche M pour afficher le menu
-            manu_display_menu();
-            break;
-       
-        case 'I': // Touche M pour afficher le menu
-            manu_display_info();
-            break;
+    case 'O':                // Touche O pour quitter le mode manuel
+        setBufferedInput(1); // Réactive le tampon d'entrée pour obtenir un caractère immédiatement
+        *running = 0;        // Met à jour la variable running dans la classe principale
+        break;
 
-        default:
-            break;
+    case 'M': // Touche M pour afficher le menu
+        manu_display_menu();
+        break;
+
+    case 'I': // Touche M pour afficher le menu
+        manu_display_info();
+        break;
+
+    default:
+        break;
     }
-     
 }
