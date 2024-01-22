@@ -70,4 +70,10 @@ extern move_status pilot_stop_at_target(void);
  */
 extern move_status pilot_get_status(void);
 
+/**
+ * @brief Stop the robot and change move status to DONE.
+ *
+ */
+extern void pilot_stop(void);
+
 #endif // PILOT_H
