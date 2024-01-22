@@ -280,48 +280,56 @@ void modeManuel(process_state *running)
 
     switch (key)
     {
-    case 'Z': // Touche Z pour aller devant
-        if (etat_verrouillage == 0  && state_obstacle == NOTHING)
+    // ===== Aller tout droit =====
+    case 'Z':
+        if (etat_verrouillage == 0  && state_obstacle == NOTHING) // Vérification de l'état verrouillage et de la présence d'obstacle
         {
             manu_go_forward();
         }
         break;
-
-    case 'Q': // Touche Q pour mode verrouillage
-        if (etat_verrouillage == 0)
+    
+    // ===== Tourner à Gauche =====
+    case 'Q':
+        if (etat_verrouillage == 0) // Vérification de l'état verrouillage
         {
             manu_turn_left();
         }
         break;
-
-    case 'S': // Touche S pour faire le debut tour
-        if (etat_verrouillage == 0)
+    
+    // ===== Faire demi-tour =====
+    case 'S':
+        if (etat_verrouillage == 0) // Vérification de l'état verrouillage
         {
             manu_U_turn();
         }
         break;
-
-    case 'D': // Touche D pour mode verrouillage
-        if (etat_verrouillage == 0)
+    
+    // ===== Tourner à Droite =====
+    case 'D':
+        if (etat_verrouillage == 0) // Vérification de l'état verrouillage
         {
             manu_turn_right();
         }
         break;
-
-    case ' ': // Touche Esc pour mode verrouillage
+    
+    // ===== Mode Verrouillage/Déverrouillage =====
+    case ' ':
         manu_lock(&etat_verrouillage);
         break;
-
-    case 'O':                // Touche O pour quitter le mode manuel
+    
+    // ===== Quitter la Mode Manuel =====
+    case 'O':
         setBufferedInput(1); // Réactive le tampon d'entrée pour obtenir un caractère immédiatement
         *running = 0;        // Met à jour la variable running dans la classe principale
         break;
-
-    case 'M': // Touche M pour afficher le menu
+    
+    // ===== Affichage du Menu =====
+    case 'M':
         manu_display_menu();
         break;
-
-    case 'I': // Touche M pour afficher le menu
+    
+    // ===== Affichage des Informations du Robot =====
+    case 'I':
         manu_display_info();
         break;
 
