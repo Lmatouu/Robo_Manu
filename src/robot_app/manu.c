@@ -52,7 +52,7 @@ move tab_u_turn[1] = {
  */
 void manu_go_forward()
 {
-    printf("La touche Z a été appuyée.\n");
+    TRACE("La touche Z a été appuyée.\n");
     //===== Déplacement du Robot =====
     if (state_forward == ARRET) // Vérifie si le Robot était à l'arrêt
     {
@@ -74,7 +74,7 @@ void manu_go_forward()
 void manu_turn_left()
 {
     pilot_stop(); // Arrêter le Robot pour pouvoir le faire tourner
-    printf("La touche Q a été appuyée.\n");
+    TRACE("La touche Q a été appuyée.\n");
     pilot_start_move(tab_move_left[0]); // Faire tourner le Robot à gauche
 
     // ===== Tourner à 90° à gauche =====
@@ -97,7 +97,7 @@ void manu_turn_left()
 void manu_U_turn()
 {
     pilot_stop(); // Arrêter le Robot pour pouvoir le faire tourner
-    printf("La touche S a été appuyée.\n");
+    TRACE("La touche S a été appuyée.\n");
     pilot_start_move(tab_u_turn[0]); // Faire tourner le Robot pour faire demi-tour
 
     // ===== Tourner à 180° =====
@@ -120,7 +120,7 @@ void manu_U_turn()
 void manu_turn_right()
 {
     pilot_stop(); // Arrêter le Robot pour pouvoir le faire tourner
-    printf("La touche D a été appuyée.\n");
+    TRACE("La touche D a été appuyée.\n");
     pilot_start_move(tab_move_right[0]); // Faire tourner le Robot à droite
 
     // ===== Tourner à 90° à droite =====
