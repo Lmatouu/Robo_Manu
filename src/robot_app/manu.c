@@ -204,7 +204,7 @@ void manu_display_menu()
 void setBufferedInput(int enable)
 {
     static struct termios oldt, newt;
-    static int isFirstCall = 1; // Variable pour suivre le premier appel
+    static int isFirstCall = 1;
 
     if (!enable && isFirstCall)
     {
@@ -213,8 +213,31 @@ void setBufferedInput(int enable)
         newt = oldt;
         newt.c_lflag &= ~(ICANON | ECHO);
         tcsetattr(STDIN_FILENO, TCSANOW, &newt);
-        isFirstCall = 0; // Met à jour la variable pour indiquer que le premier appel a été fait
+        isFirstCall = 0;
     }
+    else if (enable)
+    {
+        tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
+    }
+}
+void setBufferedInput(int enable)
+{
+    static struct termios oldt, newt; // Conserver l'état du terminal entre les appels
+    static int isFirstCall = 1; // Vérifier si c'est le premier appel à la fonction
+
+    // ===== Désactiver le mode de saisie tamponnée =====
+    if (!enable && isFirstCall)
+    {
+        printf("Bonjour, vous entrez en mode Manuel.\nPour plus d'information, cliquez sur 'M'\n");
+        tcgetattr(STDIN_FILENO, &oldt); // Sauvegarder l'état actuel du terminal
+
+        newt = oldt; // Copier l'état du terminal dans une nouvelle structure
+        newt.c_lflag &= ~(ICANON | ECHO); // Désactiver la saisie tamponnée et l'écho
+
+        tcsetattr(STDIN_FILENO, TCSANOW, &newt); // Appliquer les nouveaux paramètres au terminal
+        isFirstCall = 0; // Marquer que ce n'est plus le premier appel
+    }
+    // ===== Rétablir l'état du terminal =====
     else if (enable)
     {
         tcsetattr(STDIN_FILENO, TCSANOW, &oldt);
@@ -232,19 +255,22 @@ void setBufferedInput(int enable)
  */
 int non_blocking_getc(void)
 {
-    struct timeval tv = {0L, 50000L};
-    fd_set fds;
-    FD_ZERO(&fds);
-    FD_SET(0, &fds);
-    if (select(1, &fds, NULL, NULL, &tv))
+    struct timeval tv = {0L, 50000L}; // Définir le délai d'attente à 50 000 microsecondes
+
+    fd_set fds; // Déclarer un ensemble de descripteurs de fichiers (fd_set)
+    FD_ZERO(&fds); // Initialiser l'ensemble à zéro
+    FD_SET(0, &fds); // Ajouter l'entrée standard (0) à l'ensemble
+
+    if (select(1, &fds, NULL, NULL, &tv)) // Surveiller l'entrée standard avec un délai d'attente
     {
-        return getchar();
+        return getchar(); // Caractère lu avec getchar()
     }
     else
     {
-        return -1;
+        return -1; // Aucune entrée n'est disponible dans le délai d'attente
     }
 }
+
 
 /**
  * @authors Mathis VEBER & Kilian GUÉRY
@@ -260,8 +286,9 @@ void modeManuel(process_state *running)
 
     setBufferedInput(0); // Désactive le tampon d'entrée pour obtenir un caractère immédiatement
 
-    key = toupper(non_blocking_getc());
+    key = toupper(non_blocking_getc()); // Fonction non-bloquante qui lit un caractère
 
+    // ===== Présence d'Obstacle =====
     robot_status my_status = robot_get_status();
     if (my_status.center_sensor < SENSOR_THRESHOLD)
     {
@@ -278,6 +305,7 @@ void modeManuel(process_state *running)
         state_obstacle = NOTHING;
     }
 
+    // ===== Interaction =====
     switch (key)
     {
     // ===== Aller tout droit =====
