@@ -48,18 +48,18 @@ move tab_u_turn[1] = {
 /**
  * @version 3
  *
- * @brief Permet de faire avancer le robot tout droit avce obstacle
+ * @brief Permet de faire avancer le robot tout droit
  */
 void manu_go_forward()
 {
     TRACE("La touche Z a été appuyée.\n");
     //===== Déplacement du Robot =====
-    if (state_forward == ARRET) // Vérifie si le Robot était à l'arrêt
+    if (state_forward == ARRET) // Vérifie si le Robot est à l'arrêt
     {
         state_forward = MARCHE;                // Changement d'état
         pilot_start_move(tab_move_forward[0]); // Déplacer le Robot
     }
-    else // Vérifie si le Robot était en marche
+    else 
     {
         pilot_stop();
         state_forward = ARRET;
@@ -190,8 +190,8 @@ void manu_display_menu()
     printf("\033[1;4mAffichage d'information\033[0m\n");
     printf("\033[1m'M'\033[0m permet d'afficher les différentes interactions possibles avec la console\n");
     printf("\033[1m'I'\033[0m permet d'afficher les informations liées au Robot'\n");
-    printf("\033[1;4mModification\033[0m\n");
-    printf("\033[1m'V'\033[0m permet de modifier la vitesse du Robot\n");
+    printf("\033[1;4mMode Verrouillage\033[0m\n");
+    printf("\033[1m'Espace'\033[0m permet de verrouiller/deverrouiller le Robot\n");
 }
 
 /**
