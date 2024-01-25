@@ -189,7 +189,7 @@ void manu_display_menu()
     printf("\033[1m'S'\033[0m permet de faire tourner le Robot de 180°\n");
     printf("\033[1;4mAffichage d'information\033[0m\n");
     printf("\033[1m'M'\033[0m permet d'afficher les différentes interactions possibles avec la console\n");
-    printf("\033[1m'I'\033[0m permet d'afficher les informations liées au Robot'\n");
+    printf("\033[1m'I'\033[0m permet d'afficher les informations liées au Robot\n");
     printf("\033[1;4mMode Verrouillage\033[0m\n");
     printf("\033[1m'Espace'\033[0m permet de verrouiller/deverrouiller le Robot\n");
 }
