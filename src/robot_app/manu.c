@@ -21,7 +21,7 @@
 
 #define SENSOR_THRESHOLD 120 // Seuil de détection d'obstacle
 
-int etat_verrouillage = 0; // Booleen pour le bouton verrouiller
+static int etat_verrouillage = 0; // Booleen pour le bouton verrouiller
 
 static robot_status my_status; // Structure contenant les informations du Robot
 
@@ -332,7 +332,7 @@ void modeManuel(process_state *running)
     case 'O':
         printf("Bye, vous quittez le mode Manuel et la simulation.\n");
         setBufferedInput(1); // Réactive le tampon d'entrée pour obtenir un caractère immédiatement
-        *running = 0;        // Met à jour la variable running dans la classe principale
+        *running = STOPPED;        // Met à jour la variable running dans la classe principale
         break;
 
     // ===== Affichage du Menu =====
